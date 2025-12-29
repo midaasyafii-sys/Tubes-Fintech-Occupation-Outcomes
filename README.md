@@ -1,90 +1,107 @@
 # Tubes-Fintech-Occupation-Outcomes
 Tugas Besar Mata Kuliah Analisa Keputusan untuk Teknologi Finansial 
 
-Analisis Risiko Kredit Berbasis Profil Okupasi Menggunakan Machine Learning
-1. Pendahuluan
-Dalam sektor teknologi finansial (Fintech) dan perbankan, kemampuan memprediksi kelayakan kredit calon nasabah merupakan fondasi utama untuk memitigasi risiko gagal bayar (Non-Performing Loan). Proyek ini berfokus pada Analisis Keputusan Finansial dengan tujuan memprediksi kemampuan bayar (Capacity to Repay) individu berdasarkan profil sosio-ekonomi mereka, dengan penekanan khusus pada variabel pekerjaan (Occupation).
+# 💰 Analisis Risiko Kredit & Prediksi Kapasitas Bayar (Credit Scoring AI)
 
-Tantangan utama dalam pemodelan kredit adalah menyeimbangkan antara Akurasi Model (seberapa tepat prediksi) dan Interpretabilitas Keputusan (kemudahan menjelaskan alasan penolakan/penerimaan kredit). Proyek ini menjawab tantangan tersebut melalui pendekatan Data Science yang komprehensif, mulai dari penanganan data yang tidak seimbang hingga simulasi keputusan kredit yang transparan.
+![Python](https://img.shields.io/badge/Python-3.8%2B-blue)
+![Scikit-Learn](https://img.shields.io/badge/Library-Scikit--Learn-orange)
+![Status](https://img.shields.io/badge/Status-Completed-green)
 
-2. Tentang Dataset
-Proyek ini menggunakan dataset publik Adult Census Income (bersumber dari Kaggle/Census Bureau) sebagai data proksi untuk kelayakan kredit.
+## 📌 Pendahuluan (*Project Overview*)
+Dalam industri *Fintech* dan Perbankan, kemampuan memprediksi kelayakan kredit calon nasabah (*Creditworthiness*) adalah aset strategis untuk memitigasi risiko gagal bayar (*Non-Performing Loan*). 
 
-Sumber: Data Sensus Biro Statistik.
+Proyek ini bertujuan untuk memprediksi Kapasitas Bayar (*Capacity to Repay*) seseorang berdasarkan profil sosio-ekonomi mereka, dengan penekanan pada variabel Pekerjaan (*Occupation*), Pendidikan, dan Usia. Kami menggunakan pendekatan *Data Science* untuk menjawab tantangan strategis: menyeimbangkan antara Akurasi Model dan Interpretabilitas Keputusan.
 
-Fitur Utama: Atribut demografis seperti Occupation (Pekerjaan), Age (Usia), Education (Pendidikan), Marital Status (Status Pernikahan), dan Hours-Per-Week (Jam Kerja).
+---
 
-Target Prediksi: Tingkat Penghasilan (Income).
+## 📂 Tentang Dataset
+Proyek ini menggunakan dataset publik **Adult Census Income** (sumber: Kaggle/Census Bureau) yang berfungsi sebagai proksi data kredit.
 
->50K: Diasumsikan sebagai Low Risk (Kapasitas bayar tinggi/Layak Kredit).
+* **Fitur (*Features*):** Atribut demografis meliputi `Occupation`, `Workclass`, `Education`, `Age`, `Marital Status`, dan `Hours-Per-Week`.
+* **Target:** Tingkat Penghasilan (`Income`).
+    * `>50K` : Diasumsikan sebagai **Low Risk** (Layak Kredit).
+    * `<=50K`: Diasumsikan sebagai **High Risk** (Berisiko Tinggi).
+* **Tantangan Data:** Dataset mentah memiliki *missing values* yang signifikan dan ketimpangan kelas (*class imbalance*) yang ekstrem (76% vs 24%), mensimulasikan kondisi nyata data perbankan.
 
-<=50K: Diasumsikan sebagai High Risk (Kapasitas bayar rendah/Berisiko).
+---
 
-Tantangan Data: Data mentah memiliki nilai yang hilang (missing values) dan ketimpangan kelas yang ekstrem (class imbalance), di mana jumlah kelompok berpenghasilan rendah jauh lebih dominan dibandingkan kelompok berpenghasilan tinggi.
+## 🛠️ Metodologi (*Methods Used*)
+Proyek ini mengikuti siklus hidup *Data Science* yang ketat (*Rigorous Lifecycle*):
 
-3. Metodologi (Alur Pengerjaan)
-Proyek ini mengikuti siklus hidup Data Science yang ketat dengan tahapan sebagai berikut:
+### 1. Pra-pemrosesan Data (*Data Preprocessing*)
+* **Handling Missing Values:** Imputasi menggunakan *Median* (numerik) dan *Mode* (kategorikal).
+* **Data Cleaning:** Pembersihan inkonsistensi data dan duplikasi.
+* **Encoding:** Transformasi variabel kategorikal menjadi numerik (*Label Encoding*).
 
-A. Pra-pemrosesan Data (Data Preprocessing)
-Pembersihan Data: Menangani nilai null menggunakan imputasi statistik (Median untuk data numerik dan Modus untuk data kategorikal).
+### 2. Exploratory Data Analysis (EDA)
+* Visualisasi distribusi pendapatan antar profesi.
+* Analisis statistik deskriptif untuk memahami faktor risiko dominan.
 
-Rekayasa Fitur: Mengubah data kategorikal (teks) menjadi format numerik menggunakan Label Encoding.
+### 3. Penanganan Imbalance (*Data Preparation*)
+* Menerapkan **SMOTE (Synthetic Minority Over-sampling Technique)**.
+* Langkah ini krusial untuk mencegah bias model terhadap kelas mayoritas, memastikan model mampu "belajar" mengenali nasabah kaya (minoritas) dengan lebih baik.
 
-Data Splitting: Membagi data menjadi 70% Training Set dan 30% Testing Set.
+### 4. Strategi Pemodelan (*Modeling Strategy*)
+Kami melakukan komparasi terhadap tiga algoritma *Supervised Learning*:
+* **Decision Tree:** Model *White-box* untuk mengekstrak aturan keputusan eksplisit.
+* **Gradient Boosting:** Model *Ensemble* untuk meminimalkan error prediksi.
+* **Random Forest:** Model *Ensemble Bagging* untuk memaksimalkan akurasi dan stabilitas.
 
-B. Penanganan Ketimpangan Data (Handling Imbalance)
-Menerapkan teknik SMOTE (Synthetic Minority Over-sampling Technique) pada data latih.
+### 5. Optimasi Model (*Hyperparameter Tuning*)
+Dilakukan penyetelan parameter secara manual menggunakan **6 Skenario Eksperimen** pada model *Random Forest* dengan memvariasikan parameter:
+* `n_estimators` (Jumlah Pohon: 100, 200, 300)
+* `max_depth` (Kedalaman: 10, 20, 30, None)
+* `min_samples_split` (Split Node: 2, 5, 10)
 
-Tujuan: Membangkitkan data sintetis untuk kelas minoritas (>50K) agar model tidak bias memprediksi kelas mayoritas saja. Hasilnya, distribusi kelas menjadi seimbang sebelum proses pelatihan.
+---
 
-C. Strategi Pemodelan (Modeling Strategy)
-Kami melakukan studi komparasi terhadap tiga algoritma Supervised Learning:
+## 📊 Hasil dan Evaluasi
 
-Decision Tree: Sebagai model baseline untuk melihat aturan keputusan yang eksplisit (White-box).
+### 1. Komparasi Performa Model
+Berdasarkan pengujian pada *Testing Set* (30% data):
 
-Gradient Boosting: Untuk menguji kemampuan model berbasis boosting dalam meminimalisir error.
+| Model | Akurasi | Keterangan |
+| :--- | :--- | :--- |
+| Decision Tree | ~76.04% | Baseline |
+| Gradient Boosting | ~81.18% | Challenger |
+| **Random Forest** | **~88.01%** | **Champion (Terbaik)** |
 
-Random Forest: Menggunakan pendekatan ensemble bagging untuk memaksimalkan stabilitas dan akurasi.
+### 2. Hasil Optimasi (Skenario Terbaik)
+Dari 6 skenario optimasi manual, **Skenario 5** terpilih sebagai konfigurasi paling optimal:
+* **Setting:** `n_estimators=300`, `max_depth=None`, `min_samples_split=2`.
+* **Hasil:** Mencapai akurasi tertinggi (**88.01%**) dengan stabilitas yang baik terhadap data *unseen*.
 
-D. Optimasi Model (Hyperparameter Tuning)
-Dilakukan penyetelan parameter secara manual melalui 6 Skenario Eksperimen pada model Random Forest untuk mencari konfigurasi terbaik. Parameter yang diuji meliputi n_estimators (jumlah pohon), max_depth (kedalaman), dan min_samples_split.
+### 3. Faktor Penentu (*Feature Importance*)
+Analisis menunjukkan 3 indikator utama kelayakan finansial:
+1.  **Marital Status:** Indikator stabilitas sosial-ekonomi.
+2.  **Age:** Indikator kematangan karir dan aset.
+3.  **Education/Occupation:** Indikator potensi pendapatan.
 
-4. Hasil Eksperimen dan Evaluasi
-Komparasi Model
-Berdasarkan pengujian pada data uji (testing set), diperoleh hasil akurasi sebagai berikut:
+---
 
-Decision Tree: ~76%
+## 🚦 Simulasi Bisnis & Deployment
+Untuk meningkatkan nilai bisnis (*Business Value*), proyek ini dilengkapi dengan:
 
-Gradient Boosting: ~81%
+### A. Simulasi "Traffic Light System"
+Menerjemahkan probabilitas matematis menjadi rekomendasi keputusan yang mudah dipahami manajer bank:
+* ✅ **HIJAU (Approved):** Probabilitas > 70%.
+* ⚠️ **BIRU (Manual Review):** Probabilitas 40% - 70%.
+* ⛔ **MERAH (Rejected):** Probabilitas < 40%.
 
-Random Forest: ~88% (Model Terbaik/Champion)
+### B. Deployment
+* Model terbaik disimpan dalam format `.pkl` (*Pickle*).
+* Dilakukan pengujian pemuatan ulang (*loading*) dan tes prediksi menggunakan data nasabah buatan (*dummy*) untuk memastikan model siap produksi.
 
-Model Random Forest terpilih karena memiliki akurasi tertinggi dan nilai Recall yang seimbang, artinya model sangat baik dalam mendeteksi nasabah potensial (kelas >50K) tanpa terlalu banyak kesalahan prediksi.
+---
 
-Faktor Penentu (Feature Importance)
-Analisis model menunjukkan bahwa faktor terpenting dalam menentukan kelayakan kredit bukanlah pekerjaan semata, melainkan:
+## 🚀 Cara Menjalankan Project
+1.  Pastikan Python dan library terinstall: `pandas`, `numpy`, `sklearn`, `seaborn`, `matplotlib`, `imblearn`.
+2.  Jalankan Notebook secara berurutan dari Blok 1 (Load Data) hingga Blok 6 (Deployment).
+3.  Gunakan fitur **Simulasi Interaktif** di bagian akhir untuk menguji profil nasabah secara acak.
 
-Marital Status (Status Pernikahan): Indikator stabilitas finansial.
-
-Age (Usia): Indikator kematangan karir.
-
-Education (Pendidikan): Indikator potensi pendapatan.
-
-5. Simulasi dan Deployment
-Sebagai langkah akhir untuk membuktikan nilai bisnis (Business Value):
-
-Simulasi Traffic Light System: Dikembangkan antarmuka simulasi interaktif yang menerjemahkan probabilitas matematis menjadi status yang mudah dipahami manajer bank:
-
-🟢 Hijau: Approved (Probabilitas > 70%).
-
-🔵 Biru: Manual Review (Probabilitas 40-70%).
-
-🔴 Merah: Rejected (Probabilitas < 40%).
-
-Model Deployment: Model terbaik disimpan dalam format .pkl (Pickle) dan telah diuji kemampuannya untuk memuat ulang (load) serta memprediksi data nasabah baru yang belum pernah dilihat sebelumnya.
-
-6. Kesimpulan
-Proyek ini berhasil membangun sistem Credit Scoring cerdas dengan akurasi 88.01% menggunakan algoritma Random Forest yang telah dioptimasi (Skenario 5). Sistem ini tidak hanya akurat secara teknis, tetapi juga interpretatif melalui fitur simulasi keputusan, sehingga siap digunakan sebagai alat pendukung keputusan (Decision Support System) di industri finansial.
+---
+**Author:** [Nama Kamu]  
+**Course:** Analisis Bisnis dan Data - Master of Information Systems
 
 ---
 *Note: This repository is currently under active development. Results and deployment instructions will be updated soon.*
