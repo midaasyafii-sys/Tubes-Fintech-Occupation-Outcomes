@@ -100,8 +100,8 @@ Menerjemahkan probabilitas matematis menjadi rekomendasi keputusan yang mudah di
 3.  Gunakan fitur **Simulasi Interaktif** di bagian akhir untuk menguji profil nasabah secara acak.
 
 ---
-**Author:** [Nama Kamu]  
-**Course:** Analisis Bisnis dan Data - Master of Information Systems
+**Author:** [Nur Hamidaturrohmah Asy Syafii]  
+**Course:**  Master of Information Systems
 
 ---
 *Note: This repository is currently under active development. Results and deployment instructions will be updated soon.*
