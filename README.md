@@ -95,13 +95,12 @@ Menerjemahkan probabilitas matematis menjadi rekomendasi keputusan yang mudah di
 ---
 
 ## 🚀 Cara Menjalankan Project
-1.  Pastikan Python dan library terinstall: `pandas`, `numpy`, `sklearn`, `seaborn`, `matplotlib`, `imblearn`.
-2.  Jalankan Notebook secara berurutan dari Blok 1 (Load Data) hingga Blok 6 (Deployment).
-3.  Gunakan fitur **Simulasi Interaktif** di bagian akhir untuk menguji profil nasabah secara acak.
+1.  Jalankan Notebook secara berurutan dari Blok 1 (Load Data) hingga Blok 6 (Deployment).
+2.  Gunakan fitur **Simulasi Interaktif** di bagian akhir untuk menguji profil nasabah secara acak.
 
 ---
-**Author:** [Nur Hamidaturrohmah Asy Syafii]  
-**Course:**  Master of Information Systems
+### KESIMPULAN
+Proyek ini berhasil membangun sistem Credit Scoring cerdas dengan akurasi 88.01% menggunakan algoritma Random Forest yang telah dioptimasi (Skenario 5). Sistem ini tidak hanya akurat secara teknis, tetapi juga interpretatif melalui fitur simulasi keputusan, sehingga siap digunakan sebagai alat pendukung keputusan (Decision Support System) di industri finansial.
 
 ---
 *Note: This repository is currently under active development. Results and deployment instructions will be updated soon.*
